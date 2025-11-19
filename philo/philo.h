@@ -22,7 +22,7 @@
 
 typedef struct s_conf
 {
-	int	nop;
+	int	nop;//num of philo
 	int	t_die;
 	int	t_eat;
 	int	t_sleep;
@@ -55,5 +55,14 @@ typedef struct s_obs
 	t_philo			*ph;
 	pthread_t		monitor_th;
 }					t_obs;
+
+int init_philos(int argc, char **argv, t_obs *obs);
+int	ft_atoi(const char *str);
+
+
+
+
+
+
 
 #endif
