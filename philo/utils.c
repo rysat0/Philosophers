@@ -12,6 +12,34 @@
 
 #include "philo.h"
 
+void set_start_time(t_obs *obs)
+{
+	int i;
+
+	i = 0;
+	obs->start_ms = timestamp_ms();
+	while(i < obs->conf.nop)
+	{
+		obs->ph[i].lastmeal_ms = obs->start_ms;
+		i++;
+	}
+	return ;
+}
+
+long long timestamp_ms(void)
+{
+	long long time;
+	struct timeval tv;
+	gettimeofday(&tv, NULL);
+	time = (tv.tv_sec * 1000LL) + (tv.tv_usec / 1000LL);
+	return(time);
+}
+
+long long elapsed_ms(long long start_ms)
+{
+	return(timestamp_ms() - start_ms);
+}
+
 static int	minus_judge_space_cut(const char *str, int *judge)
 {
 	int	i;

@@ -61,11 +61,13 @@ typedef struct s_philo//philoそれぞれの構造体
 
 int init(int argc, char **argv, t_obs *obs);
 int	ft_atoi(const char *str);
-
-
-
-
-
-
+long long elapsed_ms(long long start_ms);
+long long timestamp_ms(void);
+void set_start_time(t_obs *obs);
+void wait_and_destroy(t_obs *obs);
+int start_philo(t_obs *obs);
+void print_safe(t_philo *ph, const char *str);
+void *routine(void *arg);
+void safe_usleep(int ms, t_obs *obs);
 
 #endif
