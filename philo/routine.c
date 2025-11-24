@@ -6,7 +6,7 @@
 /*   By: rysato <rysato@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 12:41:49 by rysato            #+#    #+#             */
-/*   Updated: 2025/11/24 13:28:50 by rysato           ###   ########.fr       */
+/*   Updated: 2025/11/24 13:31:44 by rysato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void *routine(void *arg)
 
 	ph = (t_philo *)arg;
 	if(ph->obs->conf.nop == 1)
-		return(routine_one, NULL);
+		return(routine_one(ph), NULL);
 	while(!(ph->obs->stop))
 	{
 		take_forks(ph);
