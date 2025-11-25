@@ -6,7 +6,7 @@
 /*   By: rysato <rysato@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 12:41:49 by rysato            #+#    #+#             */
-/*   Updated: 2025/11/25 16:12:54 by rysato           ###   ########.fr       */
+/*   Updated: 2025/11/25 16:14:45 by rysato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void safe_usleep(int ms, t_obs *obs)
 	start = timestamp_ms();
 	while(!obs->stop)
 	{
-		elapsed = timestamp() - start;
+		elapsed = timestamp_ms() - start;
 		if(elapsed >= ms)
 			break;
 		usleep(10);
