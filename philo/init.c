@@ -22,7 +22,7 @@ static int	validate_input(int argc, char **argv)
 		write(2, "[number_of_times_each_philo_must_eat]\n", 39);
 		return (-1);
 	}
-	if (ft_atoi(argv[1]) <= 0 || ft_atoi(argv[2]) <= 0 || ft_atoi(argv[3]) <= 0
+	if ((ft_atoi(argv[1]) <= 0 || argv[1] >= 200) || ft_atoi(argv[2]) <= 0 || ft_atoi(argv[3]) <= 0
 		|| ft_atoi(argv[4]) <= 0)
 	{
 		write(2, "Number Invalid\n", 16);

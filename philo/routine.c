@@ -6,7 +6,7 @@
 /*   By: rysato <rysato@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 12:41:49 by rysato            #+#    #+#             */
-/*   Updated: 2025/11/25 18:00:55 by rysato           ###   ########.fr       */
+/*   Updated: 2025/11/25 19:08:33 by rysato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,17 @@ void print_safe(t_philo *ph, const char *str)
 	long long now;
 
 	obs = ph->obs;
-	if(is_stop(obs) == 0)
+	pthread_mutex_lock(&obs->state_mx);
+	if (obs->stop)
 	{
-		pthread_mutex_lock(&obs->print_mx);
-		now = elapsed_ms(obs->start_ms);
-		printf("%lld %d %s\n", now, (ph->id) + 1, str);
-		pthread_mutex_unlock(&obs->print_mx);
+		pthread_mutex_unlock(&obs->state_mx);
+		return ;
 	}
+	pthread_mutex_lock(&obs->print_mx);
+	now = elapsed_ms(obs->start_ms);
+	printf("%lld %d %s\n", now, ph->id + 1, str);
+	pthread_mutex_unlock(&obs->print_mx);
+	pthread_mutex_unlock(&obs->state_mx);
 	return ;
 }
 
