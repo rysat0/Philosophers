@@ -6,17 +6,18 @@
 /*   By: rysato <rysato@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 21:36:08 by rysato            #+#    #+#             */
-/*   Updated: 2025/11/25 18:05:24 by rysato           ###   ########.fr       */
+/*   Updated: 2025/11/25 20:32:18 by rysato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void join_created(t_obs *obs, int count)
+static void	join_created(t_obs *obs, int count)
 {
-	int i;
+	int	i;
+
 	i = 0;
-	while(i < count)
+	while (i < count)
 	{
 		pthread_join(obs->ph[i].th, NULL);
 		i++;
@@ -24,12 +25,12 @@ static void join_created(t_obs *obs, int count)
 	return ;
 }
 
-void wait_and_destroy(t_obs *obs)
+void	wait_and_destroy(t_obs *obs)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(i < obs->conf.nop)
+	while (i < obs->conf.nop)
 	{
 		pthread_mutex_destroy(&obs->forks[i]);
 		pthread_mutex_destroy(&obs->meal_mx[i]);
@@ -43,20 +44,20 @@ void wait_and_destroy(t_obs *obs)
 	free(obs);
 }
 
-int start_philo(t_obs *obs)
+int	start_philo(t_obs *obs)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(i < obs->conf.nop)
+	while (i < obs->conf.nop)
 	{
-		if(pthread_create(&obs->ph[i].th, NULL, routine, &obs->ph[i]) != 0)
-			return(make_lock(obs), join_created(obs, i), -1);
+		if (pthread_create(&obs->ph[i].th, NULL, routine, &obs->ph[i]) != 0)
+			return (make_lock(obs), join_created(obs, i), -1);
 		i++;
 	}
-	if(pthread_create(&obs->monitor_th, NULL, monitor, obs) != 0)
-		return(make_lock(obs), join_created(obs, obs->conf.nop), -1);
+	if (pthread_create(&obs->monitor_th, NULL, monitor, obs) != 0)
+		return (make_lock(obs), join_created(obs, obs->conf.nop), -1);
 	pthread_join(obs->monitor_th, NULL);
 	join_created(obs, obs->conf.nop);
-	return(0);
+	return (0);
 }

@@ -6,16 +6,16 @@
 /*   By: rysato <rysato@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 12:41:49 by rysato            #+#    #+#             */
-/*   Updated: 2025/11/25 19:08:33 by rysato           ###   ########.fr       */
+/*   Updated: 2025/11/25 20:32:06 by rysato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void print_safe(t_philo *ph, const char *str)
+void	print_safe(t_philo *ph, const char *str)
 {
-	t_obs *obs;
-	long long now;
+	t_obs		*obs;
+	long long	now;
 
 	obs = ph->obs;
 	pthread_mutex_lock(&obs->state_mx);
@@ -32,23 +32,23 @@ void print_safe(t_philo *ph, const char *str)
 	return ;
 }
 
-void safe_usleep(int ms, t_obs *obs)
+void	safe_usleep(int ms, t_obs *obs)
 {
-	long long start;
-	long long elapsed;
+	long long	start;
+	long long	elapsed;
 
 	start = timestamp_ms();
-	while(is_stop(obs) == 0)
+	while (is_stop(obs) == 0)
 	{
 		elapsed = timestamp_ms() - start;
-		if(elapsed >= ms)
-			break;
+		if (elapsed >= ms)
+			break ;
 		usleep(10);
 	}
 	return ;
 }
 
-static void routine_one(t_philo *ph)
+static void	routine_one(t_philo *ph)
 {
 	pthread_mutex_lock(ph->lfork);
 	print_safe(ph, "has taken a fork");
@@ -57,9 +57,9 @@ static void routine_one(t_philo *ph)
 	return ;
 }
 
-static void take_forks(t_philo *ph)
+static void	take_forks(t_philo *ph)
 {
-	if((ph->id % 2) == 0)
+	if ((ph->id % 2) == 0)
 	{
 		pthread_mutex_lock(ph->lfork);
 		print_safe(ph, "has taken a fork");
@@ -76,14 +76,14 @@ static void take_forks(t_philo *ph)
 	return ;
 }
 
-void *routine(void *arg)
+void	*routine(void *arg)
 {
-	t_philo *ph;
+	t_philo	*ph;
 
 	ph = (t_philo *)arg;
-	if(ph->obs->conf.nop == 1)
-		return(routine_one(ph), NULL);
-	while(is_stop(ph->obs) == 0)
+	if (ph->obs->conf.nop == 1)
+		return (routine_one(ph), NULL);
+	while (is_stop(ph->obs) == 0)
 	{
 		take_forks(ph);
 		pthread_mutex_lock(ph->meal_mx);
@@ -98,5 +98,5 @@ void *routine(void *arg)
 		safe_usleep(ph->obs->conf.t_sleep, ph->obs);
 		print_safe(ph, "is thinking");
 	}
-	return NULL;
+	return (NULL);
 }

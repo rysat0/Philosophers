@@ -6,19 +6,19 @@
 /*   By: rysato <rysato@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 19:02:12 by rysato            #+#    #+#             */
-/*   Updated: 2025/10/02 19:07:31 by rysato           ###   ########.fr       */
+/*   Updated: 2025/11/26 00:13:19 by rysato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void set_start_time(t_obs *obs)
+void	set_start_time(t_obs *obs)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	obs->start_ms = timestamp_ms();
-	while(i < obs->conf.nop)
+	while (i < obs->conf.nop)
 	{
 		obs->ph[i].lastmeal_ms = obs->start_ms;
 		i++;
@@ -26,18 +26,19 @@ void set_start_time(t_obs *obs)
 	return ;
 }
 
-long long timestamp_ms(void)
+long long	timestamp_ms(void)
 {
-	long long time;
-	struct timeval tv;
+	long long		time;
+	struct timeval	tv;
+
 	gettimeofday(&tv, NULL);
 	time = (tv.tv_sec * 1000LL) + (tv.tv_usec / 1000LL);
-	return(time);
+	return (time);
 }
 
-long long elapsed_ms(long long start_ms)
+long long	elapsed_ms(long long start_ms)
 {
-	return(timestamp_ms() - start_ms);
+	return (timestamp_ms() - start_ms);
 }
 
 static int	minus_judge_space_cut(const char *str, int *judge)
@@ -75,20 +76,4 @@ int	ft_atoi(const char *str)
 	if (judge == 1)
 		return (-num);
 	return (num);
-}
-
-int is_stop(t_obs *obs)
-{
-	pthread_mutex_lock(&obs->state_mx);
-	if(obs->stop == 1)
-		return(pthread_mutex_unlock(&obs->state_mx), 1);
-	return(pthread_mutex_unlock(&obs->state_mx), 0);
-}
-
-void make_lock(t_obs *obs)
-{
-	pthread_mutex_lock(&obs->state_mx);
-	obs->stop = 1;
-	pthread_mutex_unlock(&obs->state_mx);
-	return ;
 }

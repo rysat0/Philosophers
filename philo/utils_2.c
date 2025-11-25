@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rysato <rysato@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/27 16:22:41 by rysato            #+#    #+#             */
-/*   Updated: 2025/11/25 20:11:24 by rysato           ###   ########.fr       */
+/*   Created: 2025/11/26 00:12:30 by rysato            #+#    #+#             */
+/*   Updated: 2025/11/26 00:13:22 by rysato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int argc, char **argv)
+int	is_stop(t_obs *obs)
 {
-	t_obs	*obs;
+	pthread_mutex_lock(&obs->state_mx);
+	if (obs->stop == 1)
+		return (pthread_mutex_unlock(&obs->state_mx), 1);
+	return (pthread_mutex_unlock(&obs->state_mx), 0);
+}
 
-	obs = malloc(sizeof(t_obs));
-	if (obs == NULL)
-		return (EXIT_FAILURE);
-	if (init(argc, argv, obs) == -1)
-		return (free(obs), EXIT_FAILURE);
-	set_start_time(obs);
-	if (start_philo(obs) == -1)
-		return (wait_and_destroy(obs), EXIT_FAILURE);
-	wait_and_destroy(obs);
-	return (EXIT_SUCCESS);
+void	make_lock(t_obs *obs)
+{
+	pthread_mutex_lock(&obs->state_mx);
+	obs->stop = 1;
+	pthread_mutex_unlock(&obs->state_mx);
+	return ;
 }
