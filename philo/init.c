@@ -30,7 +30,7 @@ static int	validate_input(int argc, char **argv)
 	}
 	if (argc == 6)
 	{
-		if (ft_atoi(argv[5]) < 0)
+		if (ft_atoi(argv[5]) <= 0)
 		{
 			write(2, "Number Invalid\n", 16);
 			return (-1);
