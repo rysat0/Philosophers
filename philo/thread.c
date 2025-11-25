@@ -6,7 +6,7 @@
 /*   By: rysato <rysato@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 21:36:08 by rysato            #+#    #+#             */
-/*   Updated: 2025/11/24 12:37:37 by rysato           ###   ########.fr       */
+/*   Updated: 2025/11/25 13:27:50 by rysato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,3 @@ int start_philo(t_obs *obs)
 	return(0);
 }
 
-
-//philo init
-//obs init
-//philo join
-//obs join

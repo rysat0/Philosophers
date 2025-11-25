@@ -24,8 +24,5 @@ int	main(int argc, char **argv)
 	set_start_time(obs);
 	start_philos(obs);
 	wait_and_destory(obs);
-
-	//監視スレッド開始
-
 	return (EXIT_SUCCESS);
 }

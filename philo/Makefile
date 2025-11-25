@@ -1,15 +1,11 @@
-NAME = push_swap
+NAME = philo
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
 RM = rm -f
 
-SRCS = chunk_sort1.c chunk_sort2.c main.c order_p.c \
-	   order_r.c order_rr.c order_s.c put_error.c \
-	   rank.c under_five1.c under_five2.c utils1.c utils2.c \
-	   utils3.c
-
+SRCS = init.c main.c monitor.c routine.c thread.c utils.c philo.h
 
 OBJS = $(SRCS:.c=.o)
 
