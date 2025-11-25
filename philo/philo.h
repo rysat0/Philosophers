@@ -34,7 +34,7 @@ typedef struct s_conf//設定構造体
 typedef struct s_obs//観測者の構造体
 {
 	t_conf			conf;//設定読み込み
-	long			start_ms;//開始時刻
+	long long		start_ms;//開始時刻
 	volatile int	stop;//終了フラグ
 	pthread_mutex_t	*forks;//フォーク
 	pthread_mutex_t	*meal_mx;//食事情報のミューテックス
@@ -49,7 +49,7 @@ typedef struct s_philo//philoそれぞれの構造体
 	int				id;//自分のforkid
 	int				leftid;//左のforkid
 	int				rightid;//右
-	int				lastmeal_ms;//最後に食べた時刻
+	long long		lastmeal_ms;//最後に食べた時刻
 	int				meals;//食べた回数
 	pthread_t		th;//スレッド
 	t_obs			*obs;//管理構造体

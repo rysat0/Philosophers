@@ -51,7 +51,7 @@ static void	initialize_conf(int argc, char **argv, t_obs *obs)
 	return ;
 }
 
-static void	destroy_mtx(t_obs *obs, pthread_mutex_t *mxs, int i)
+static void	destroy_mtx(pthread_mutex_t *mxs, int i)
 {
 	int	j;
 
@@ -71,7 +71,7 @@ static int	init_mtx(t_obs *obs)
 	while (i < obs->conf.nop)
 	{
 		if (pthread_mutex_init(&obs->forks[i], NULL) != 0)
-			return (destroy_mtx(obs, obs->forks, i), free(obs->forks),
+			return (destroy_mtx(obs->forks, i), free(obs->forks),
 				free(obs->meal_mx), -1);
 		i++;
 	}
@@ -79,8 +79,8 @@ static int	init_mtx(t_obs *obs)
 	while (i < obs->conf.nop)
 	{
 		if (pthread_mutex_init(&obs->meal_mx[i], NULL) != 0)
-			return (destroy_mtx(obs, obs->forks, obs->conf.nop),
-				destroy_mtx(obs, obs->meal_mx, i), free(obs->forks),
+			return (destroy_mtx(obs->forks, obs->conf.nop),
+				destroy_mtx(obs->meal_mx, i), free(obs->forks),
 				free(obs->meal_mx), -1);
 		i++;
 	}

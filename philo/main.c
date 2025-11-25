@@ -22,7 +22,7 @@ int	main(int argc, char **argv)
 	if (init(argc, argv, obs) == -1)
 		return (free(obs), EXIT_FAILURE);
 	set_start_time(obs);
-	start_philos(obs);
-	wait_and_destory(obs);
+	start_philo(obs);
+	wait_and_destroy(obs);
 	return (EXIT_SUCCESS);
 }

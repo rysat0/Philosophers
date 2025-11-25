@@ -6,7 +6,7 @@
 /*   By: rysato <rysato@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 21:36:08 by rysato            #+#    #+#             */
-/*   Updated: 2025/11/25 13:27:50 by rysato           ###   ########.fr       */
+/*   Updated: 2025/11/25 14:01:45 by rysato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void wait_and_destroy(t_obs *obs)
 	pthread_mutex_destroy(&obs->print_mx);
 	free(obs->meal_mx);
 	free(obs->forks);
-	free(&obs->ph);
+	free(obs->ph);
 	free(obs);
 }
 
@@ -60,4 +60,3 @@ int start_philo(t_obs *obs)
 	join_created(obs, obs->conf.nop);
 	return(0);
 }
-

@@ -6,17 +6,17 @@
 /*   By: rysato <rysato@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 12:41:54 by rysato            #+#    #+#             */
-/*   Updated: 2025/11/25 13:26:34 by rysato           ###   ########.fr       */
+/*   Updated: 2025/11/25 15:14:39 by rysato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void load_meal_conf(t_obs *obs, long long last_meal_ms, int meal_times, int i)
+static void load_meal_conf(t_obs *obs, long long *last_meal_ms, int *meal_times, int i)
 {
 	pthread_mutex_lock(&obs->meal_mx[i]);
-	last_meal_ms = obs->ph[i].lastmeal_ms;
-	meal_times = obs->ph[i].meals;
+	*last_meal_ms = obs->ph[i].lastmeal_ms;
+	*meal_times = obs->ph[i].meals;
 	pthread_mutex_unlock(&obs->meal_mx[i]);
 	return ;
 }
@@ -43,11 +43,12 @@ static int count_meals(t_obs *obs, int meal_times, int philo_full_count)
 {
 	if((obs->conf.must_eat > 0) && (meal_times >= obs->conf.must_eat))
 		return(philo_full_count + 1);
+	return(philo_full_count);
 }
 
-static int is_all_full(t_obs *obs, int philo_all_count)
+static int is_all_full(t_obs *obs, int philo_full_count)
 {
-	if((obs->conf.must_eat > 0) && (philo_all_count == obs->conf.nop))
+	if((obs->conf.must_eat > 0) && (philo_full_count == obs->conf.nop))
 	{
 		pthread_mutex_lock(&obs->state_mx);
 		obs->stop = 1;
@@ -65,21 +66,21 @@ void *monitor(void *arg)
 	int meal_times;
 	int i;
 
-	obs = (t_obs *)obs;
+	obs = (t_obs *)arg;
 	philo_full_count = 0;
 	i = 0;
 	last_meal_ms = 0;
 	meal_times = 0;
 	while(!(obs->stop))
 	{
-		load_meal_conf(obs, last_meal_ms, meal_times, i);
-		if(is_philo_die == 1)
+		load_meal_conf(obs, &last_meal_ms, &meal_times, i);
+		if(is_philo_die(obs, last_meal_ms, i) == 1)
 			return(NULL);
-		philo_full_count = count_meals(obs, meal_times,philo_full_count);
-		if(is_all_full == 1)
+		philo_full_count = count_meals(obs, meal_times, philo_full_count);
+		if(is_all_full(obs, philo_full_count) == 1)
 			return(NULL);
-		usleep(100);
-		i++;
+		i = (i + 1) % obs->conf.nop;
+		usleep(10);
 	}
 	return(NULL);
 }
