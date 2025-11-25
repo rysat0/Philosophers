@@ -6,7 +6,7 @@
 /*   By: rysato <rysato@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 12:41:54 by rysato            #+#    #+#             */
-/*   Updated: 2025/11/25 15:47:46 by rysato           ###   ########.fr       */
+/*   Updated: 2025/11/25 16:11:26 by rysato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void load_meal_conf(t_obs *obs, long long *last_meal_ms, int *meal_times,
 
 static int is_philo_die(t_obs *obs, long long last_meal_ms, int i)
 {
-	if(elapsed_ms(timestamp_ms() - last_meal_ms) >= obs->conf.t_die)
+	if((timestamp_ms() - last_meal_ms) >= obs->conf.t_die)
 	{
 		pthread_mutex_lock(&obs->state_mx);
 		if(!(obs->stop))
@@ -73,6 +73,8 @@ void *monitor(void *arg)
 	meal_times = 0;
 	while(!(obs->stop))
 	{
+		if(i == 0)
+			philo_full_count = 0;
 		load_meal_conf(obs, &last_meal_ms, &meal_times, i);
 		if(is_philo_die(obs, last_meal_ms, i) == 1)
 			return(NULL);
@@ -84,3 +86,36 @@ void *monitor(void *arg)
 	}
 	return(NULL);
 }
+
+// void *monitor(void *arg)
+// {
+// 	t_obs *obs;
+// 	int philo_full_count;
+// 	long long last_meal_ms;
+// 	int meal_times;
+// 	int i;
+
+// 	obs = (t_obs *)arg;
+// 	philo_full_count = 0;
+// 	i = 0;
+// 	last_meal_ms = 0;
+// 	meal_times = 0;
+// 	while(!(obs->stop))
+// 	{
+// 		i = 0;
+// 		philo_full_count = 0;
+// 		while(i < obs->conf.nop)
+// 		{
+// 			load_meal_conf(obs, &last_meal_ms, &meal_times, i);
+// 			if(is_philo_die(obs, last_meal_ms, i) == 1)
+// 				return(NULL);
+// 			philo_full_count = count_meals(obs, meal_times, philo_full_count);
+// 			i++;
+// 		}
+// 		if(is_all_full(obs, philo_full_count) == 1)
+// 			return(NULL);
+// 		usleep(10);
+// 		i++;
+// 	}
+// 	return(NULL);
+// }
