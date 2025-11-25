@@ -6,7 +6,7 @@
 /*   By: rysato <rysato@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 12:41:54 by rysato            #+#    #+#             */
-/*   Updated: 2025/11/25 15:14:39 by rysato           ###   ########.fr       */
+/*   Updated: 2025/11/25 15:47:46 by rysato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void load_meal_conf(t_obs *obs, long long *last_meal_ms, int *meal_times,
 
 static int is_philo_die(t_obs *obs, long long last_meal_ms, int i)
 {
-	if(elapsed_ms(last_meal_ms) >= obs->conf.t_die)
+	if(elapsed_ms(timestamp_ms() - last_meal_ms) >= obs->conf.t_die)
 	{
 		pthread_mutex_lock(&obs->state_mx);
 		if(!(obs->stop))
