@@ -5,7 +5,7 @@ CFLAGS = -Wall -Wextra -Werror -pthread
 
 RM = rm -f
 
-SRCS = init.c main.c monitor.c routine.c thread.c utils.c
+SRCS = init.c main.c monitor.c routine.c thread.c utils.c utils_2.c init_2.c
 
 OBJS = $(SRCS:.c=.o)
 

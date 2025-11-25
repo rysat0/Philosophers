@@ -6,7 +6,7 @@
 /*   By: rysato <rysato@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 18:29:01 by rysato            #+#    #+#             */
-/*   Updated: 2025/11/25 20:13:54 by rysato           ###   ########.fr       */
+/*   Updated: 2025/11/26 00:15:30 by rysato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,7 @@ void					safe_usleep(int ms, t_obs *obs);
 void					*monitor(void *arg);
 int						is_stop(t_obs *obs);
 void					make_lock(t_obs *obs);
+int						validate_input(int argc, char **argv);
+void					initialize_conf(int argc, char **argv, t_obs *obs);
 
 #endif
