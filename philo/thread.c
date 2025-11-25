@@ -6,7 +6,7 @@
 /*   By: rysato <rysato@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 21:36:08 by rysato            #+#    #+#             */
-/*   Updated: 2025/11/25 14:01:45 by rysato           ###   ########.fr       */
+/*   Updated: 2025/11/25 18:05:24 by rysato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,11 @@ int start_philo(t_obs *obs)
 	while(i < obs->conf.nop)
 	{
 		if(pthread_create(&obs->ph[i].th, NULL, routine, &obs->ph[i]) != 0)
-			return(obs->stop = 1, join_created(obs, i), -1);
+			return(make_lock(obs), join_created(obs, i), -1);
 		i++;
 	}
 	if(pthread_create(&obs->monitor_th, NULL, monitor, obs) != 0)
-		return(obs->stop = 1, join_created(obs, obs->conf.nop), wait_and_destroy(obs), -1);
+		return(make_lock(obs), join_created(obs, obs->conf.nop), -1);
 	pthread_join(obs->monitor_th, NULL);
 	join_created(obs, obs->conf.nop);
 	return(0);

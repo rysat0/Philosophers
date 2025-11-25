@@ -6,7 +6,7 @@
 /*   By: rysato <rysato@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 12:41:49 by rysato            #+#    #+#             */
-/*   Updated: 2025/11/25 16:14:45 by rysato           ###   ########.fr       */
+/*   Updated: 2025/11/25 18:00:55 by rysato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ void print_safe(t_philo *ph, const char *str)
 	long long now;
 
 	obs = ph->obs;
-	pthread_mutex_lock(&obs->print_mx);
-	if(!(obs->stop))
+	if(is_stop(obs) == 0)
 	{
+		pthread_mutex_lock(&obs->print_mx);
 		now = elapsed_ms(obs->start_ms);
 		printf("%lld %d %s\n", now, (ph->id) + 1, str);
+		pthread_mutex_unlock(&obs->print_mx);
 	}
-	pthread_mutex_unlock(&obs->print_mx);
 	return ;
 }
 
@@ -34,7 +34,7 @@ void safe_usleep(int ms, t_obs *obs)
 	long long elapsed;
 
 	start = timestamp_ms();
-	while(!obs->stop)
+	while(is_stop(obs) == 0)
 	{
 		elapsed = timestamp_ms() - start;
 		if(elapsed >= ms)
@@ -79,7 +79,7 @@ void *routine(void *arg)
 	ph = (t_philo *)arg;
 	if(ph->obs->conf.nop == 1)
 		return(routine_one(ph), NULL);
-	while(!(ph->obs->stop))
+	while(is_stop(ph->obs) == 0)
 	{
 		take_forks(ph);
 		pthread_mutex_lock(ph->meal_mx);

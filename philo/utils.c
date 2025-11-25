@@ -76,3 +76,19 @@ int	ft_atoi(const char *str)
 		return (-num);
 	return (num);
 }
+
+int is_stop(t_obs *obs)
+{
+	pthread_mutex_lock(&obs->state_mx);
+	if(obs->stop == 1)
+		return(pthread_mutex_unlock(&obs->state_mx), 1);
+	return(pthread_mutex_unlock(&obs->state_mx), 0);
+}
+
+void make_lock(t_obs *obs)
+{
+	pthread_mutex_lock(&obs->state_mx);
+	obs->stop = 1;
+	pthread_mutex_unlock(&obs->state_mx);
+	return ;
+}

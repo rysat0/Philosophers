@@ -70,5 +70,7 @@ void print_safe(t_philo *ph, const char *str);
 void *routine(void *arg);
 void safe_usleep(int ms, t_obs *obs);
 void *monitor(void *arg);
+int is_stop(t_obs *obs);
+void make_lock(t_obs *obs);
 
 #endif

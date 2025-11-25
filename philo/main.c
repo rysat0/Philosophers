@@ -23,7 +23,7 @@ int	main(int argc, char **argv)
 		return (free(obs), EXIT_FAILURE);
 	set_start_time(obs);
 	if(start_philo(obs) == -1)
-		return (EXIT_FAILURE);
+		return (wait_and_destroy(obs), EXIT_FAILURE);
 	wait_and_destroy(obs);
 	return (EXIT_SUCCESS);
 }
