@@ -6,7 +6,7 @@
 /*   By: rysato <rysato@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 18:29:01 by rysato            #+#    #+#             */
-/*   Updated: 2025/11/26 00:15:30 by rysato           ###   ########.fr       */
+/*   Updated: 2025/12/17 21:02:13 by rysato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <string.h>
 # include <sys/time.h>
 # include <unistd.h>
+# include <limits.h>
 
 typedef struct s_philo	t_philo;
 
