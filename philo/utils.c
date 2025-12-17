@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <limits.h>
 #include "philo.h"
 
 void	set_start_time(t_obs *obs)
@@ -41,18 +42,19 @@ long long	elapsed_ms(long long start_ms)
 	return (timestamp_ms() - start_ms);
 }
 
-static int	minus_judge_space_cut(const char *str, int *judge)
+static int	skip_space_and_sign(const char *str, int *sign)
 {
 	int	i;
 
 	i = 0;
+	*sign = 1;
 	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n' || str[i] == '\v'
 		|| str[i] == '\f' || str[i] == '\r')
 		i++;
 	if (str[i] == '-' || str[i] == '+')
 	{
 		if (str[i] == '-')
-			*judge = 1;
+			*sign = -1;
 		i++;
 	}
 	return (i);
@@ -60,20 +62,27 @@ static int	minus_judge_space_cut(const char *str, int *judge)
 
 int	ft_atoi(const char *str)
 {
-	int	i;
-	int	num;
-	int	judge;
+	int			i;
+	long long	result;
+	int			sign;
+	long long	limit;
 
-	num = 0;
-	i = 0;
-	judge = 0;
-	i = minus_judge_space_cut(str, &judge);
+	result = 0;
+	i = skip_space_and_sign(str, &sign);
+	if (sign == -1)
+		limit = (long long)INT_MAX + 1;
+	else
+		limit = INT_MAX;
 	while (str[i] >= '0' && str[i] <= '9')
 	{
-		num = (num * 10) + (str[i] - '0');
+		if (result > (limit - (str[i] - '0')) / 10)
+		{
+			if (sign == -1)
+				return (INT_MIN);
+			return (INT_MAX);
+		}
+		result = (result * 10) + (str[i] - '0');
 		i++;
 	}
-	if (judge == 1)
-		return (-num);
-	return (num);
+	return ((int)(result * sign));
 }
